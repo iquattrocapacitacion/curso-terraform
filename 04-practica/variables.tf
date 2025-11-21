@@ -38,3 +38,15 @@ variable "environment" {
   type        = string
   default     = "qa"
 }
+
+variable "allocation_method" {
+  description = "The allocation method for the public IP."
+  type        = string
+  default     = "Static"
+}
+
+variable "sku" {
+  description = "The SKU for the public IP."
+  type        = string
+  default     = "Standard"
+}
