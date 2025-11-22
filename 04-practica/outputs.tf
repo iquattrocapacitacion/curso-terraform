@@ -71,3 +71,13 @@ output "nic_name" {
   description = "The name of the network interface"
   value       = azurerm_network_interface.terraform_nic.name
 }
+
+output "vm_name" {
+  description = "The name of the virtual machine"
+  value       = azurerm_virtual_machine.terraform_vm.name
+}
+
+output "vm_size" {
+  description = "The size of the virtual machine"
+  value       = azurerm_virtual_machine.terraform_vm.vm_size
+}

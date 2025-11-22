@@ -33,7 +33,7 @@ resource "azurerm_network_security_rule" "terraform_nsg_rule_ssh_inbound" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = "*"
+  source_address_prefix       = var.allowed_cidr
   destination_address_prefix  = "*"
   resource_group_name         = module.vnet_module_terraform.resource_group_name
   network_security_group_name = azurerm_network_security_group.terraform_nsg.name
@@ -47,7 +47,7 @@ resource "azurerm_network_security_rule" "terraform_nsg_rule_http_inbound" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "80"
-  source_address_prefix       = "*"
+  source_address_prefix       = var.allowed_cidr
   destination_address_prefix  = "*"
   resource_group_name         = module.vnet_module_terraform.resource_group_name
   network_security_group_name = azurerm_network_security_group.terraform_nsg.name
@@ -61,7 +61,7 @@ resource "azurerm_network_security_rule" "terraform_nsg_rule_https_inbound" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "443"
-  source_address_prefix       = "*"
+  source_address_prefix       = var.allowed_cidr
   destination_address_prefix  = "*"
   resource_group_name         = module.vnet_module_terraform.resource_group_name
   network_security_group_name = azurerm_network_security_group.terraform_nsg.name
@@ -97,12 +97,12 @@ resource "azurerm_network_interface_security_group_association" "terraform_nic_n
   network_security_group_id = azurerm_network_security_group.terraform_nsg.id
 }
 
-resource "azurerm_virtual_machine" "main" {
+resource "azurerm_virtual_machine" "terraform_vm" {
   name                  = "${var.prefix_name}-${var.environment}-vm"
   location              = var.location
   resource_group_name   = module.vnet_module_terraform.resource_group_name
   network_interface_ids = [azurerm_network_interface.terraform_nic.id]
-  vm_size               = "Standard_DS1_v2"
+  vm_size               = "Standard_B1s"
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   # delete_os_disk_on_termination = true
@@ -117,14 +117,14 @@ resource "azurerm_virtual_machine" "main" {
     version   = "latest"
   }
   storage_os_disk {
-    name              = "${var.prefix_name}-osdisk1"
+    name              = "${var.prefix_name}-${var.environment}-osdisk1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
   os_profile {
     computer_name  = "hostname"
-    admin_username = "testadmin"
+    admin_username = "dsalinas"
     admin_password = "Dsalinas@dss!"
   }
   os_profile_linux_config {

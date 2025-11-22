@@ -50,3 +50,9 @@ variable "sku" {
   type        = string
   default     = "Standard"
 }
+
+variable "allowed_cidr" {
+  description = "The CIDR block allowed to access via SSH, HTTP and HTTPS."
+  type        = string
+  default     = "161.56.40.254/32"
+}
