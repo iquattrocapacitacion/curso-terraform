@@ -104,6 +104,9 @@ resource "azurerm_virtual_machine" "terraform_vm" {
   network_interface_ids = [azurerm_network_interface.terraform_nic.id]
   vm_size               = "Standard_B1s"
 
+  delete_os_disk_on_termination    = true
+  delete_data_disks_on_termination = true
+
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   # delete_os_disk_on_termination = true
 
