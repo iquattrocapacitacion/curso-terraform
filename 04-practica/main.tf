@@ -1,4 +1,4 @@
-module "vnet_module_terraform" {
+module "vnet_module_terraform_dev" {
   source = "./modules/vnet"
   # requeridos
   location           = var.location
@@ -7,6 +7,23 @@ module "vnet_module_terraform" {
   # opcionales
   project_name = "tf-project"
   environment  = var.environment
+  # providers = {
+  #   azurerm = azurerm.suscripcion-dev
+  # }
+}
+
+module "vnet_module_terraform_qa" {
+  source = "./modules/vnet"
+  # requeridos
+  location           = var.location
+  vnet_address_space = var.vnet_address_space
+  prefix_name        = var.prefix_name
+  # opcionales
+  project_name = "tf-project"
+  environment  = var.environment
+  # providers = {
+  #   azurerm = azurerm.suscripcion-qa
+  # }
 }
 
 resource "azurerm_subnet" "subnet1" {
@@ -14,6 +31,7 @@ resource "azurerm_subnet" "subnet1" {
   resource_group_name  = module.vnet_module_terraform.resource_group_name
   virtual_network_name = module.vnet_module_terraform.virtual_network_name
   address_prefixes     = ["10.0.1.0/24"]
+  # provider             = azurerm.suscripcion-dev
 }
 
 resource "azurerm_network_security_group" "terraform_nsg" {
