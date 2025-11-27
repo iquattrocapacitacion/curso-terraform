@@ -6,7 +6,7 @@
 
 
 resource "azurerm_resource_group" "rg" {
-  name     = "dalvinder-rg"
+  name     = "dalvinder-rg-${terraform.workspace}"
   location = "eastus"
   tags = {
     Project     = "Terraform"

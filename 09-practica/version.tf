@@ -1,7 +1,12 @@
 terraform {
-  # backend "azurerm" {
-  #   key = "${terraform.workspace}.terraform.tfstate"
-  # }
+  backend "azurerm" {
+    resource_group_name  = "rg-tf-state-dalvinder"
+    storage_account_name = "sacstate62577"
+    container_name       = "tfstate"
+    key                  = "workspaces/terraform.tfstate"
+  }
+
+  # terraform init -migrate-state # ejecutar migración de estado
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
