@@ -10,7 +10,7 @@ resource "random_integer" "suffix" {
 }
 
 resource "azurerm_storage_account" "sa" {
-  name                     = "SCState${random_integer.suffix.result}"
+  name                     = "sacstate${random_integer.suffix.result}"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
