@@ -1,9 +1,10 @@
 terraform {
-  backend "azurerm" {
-    resource_group_name  = "rg-tf-state-dalvinder"
-    storage_account_name = "sacstate73361"
-    container_name       = "tfstate"
-    key                  = "cloud/terraform.tfstate"
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "courses-terraform-11282025"
+    workspaces {
+      name = "dev"
+    }
   }
 
   # terraform init -migrate-state # ejecutar migración de estado
