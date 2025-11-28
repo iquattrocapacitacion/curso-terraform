@@ -49,3 +49,33 @@ jobs:
         run: |
           echo "La rama es: $GITHUB_REF"
           echo "El entorno detectado es: $ENVIRONMENT"
+
+      - name: Terraform Format
+        run: terraform fmt -check -recursive
+        continue-on-error: true
+
+      - name: Terraform Init
+        run: terraform init
+        id: init
+
+      - name: Selecionar Workspace dinámico
+        run: |
+          terraform workspace select $ENVIRONMENT || terraform workspace new $ENVIRONMENT
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Ejecución de Terraform (Apply o Destroy)
+        run: |
+          echo "Ejecutando acción: $TF_ACTION"
+          if [ "$TF_ACTION" = "apply" ]; then
+            terraform apply -auto-approve
+          elif [ "$TF_ACTION" = "destroy" ]; then
+            terraform destroy -auto-approve
+          else
+            echo "Valor inválido para TF_ACTION: $TF_ACTION"
+            exit 1
+          fi
