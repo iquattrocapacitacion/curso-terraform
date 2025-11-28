@@ -1,0 +1,5 @@
+common_tags = {
+  Project     = "Terraform"
+  Owner       = "Dalvinder"
+  Environment = "Prod"
+}
