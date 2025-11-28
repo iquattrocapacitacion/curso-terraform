@@ -17,7 +17,7 @@ env:
 jobs:
   terraform:
     name: 'Terraform Deploy'
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
 
     env:
       ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
 
       - uses: hashicorp/setup-terraform@v3
         with:
