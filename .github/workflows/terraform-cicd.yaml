@@ -1,0 +1,39 @@
+name: 'Terraform Course Pipeline'
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - '09-practica/**'
+      - '.github/workflows/terraform-cicd.yaml'
+
+env:
+  TF_VERSION: '1.13.5'
+  TF_ACTION: 'apply'
+  WORKING_DIR: '09-practica'
+
+jobs:
+  terraform:
+    name: 'Terraform Deploy'
+    runs-on: ubuntu-lastest
+
+    env:
+      ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+
+    permissions:
+      contents: read
+      id-token: write
+
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
