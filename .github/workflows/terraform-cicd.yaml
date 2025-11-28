@@ -11,7 +11,7 @@ on:
 
 env:
   TF_VERSION: '1.13.5'
-  TF_ACTION: 'destroy'
+  TF_ACTION: 'apply'
   WORKING_DIR: '09-practica'
 
 jobs:
@@ -66,15 +66,15 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -var-file="terraform.tfvars.${ENVIRONMENT}" -input=false
 
       - name: Ejecución de Terraform (Apply o Destroy)
         run: |
           echo "Ejecutando acción: $TF_ACTION"
           if [ "$TF_ACTION" = "apply" ]; then
-            terraform apply -auto-approve
+            terraform apply -var-file="terraform.tfvars.${ENVIRONMENT}" -auto-approve
           elif [ "$TF_ACTION" = "destroy" ]; then
-            terraform destroy -auto-approve
+            terraform destroy -var-file="terraform.tfvars.${ENVIRONMENT}" -auto-approve
           else
             echo "Valor inválido para TF_ACTION: $TF_ACTION"
             exit 1
