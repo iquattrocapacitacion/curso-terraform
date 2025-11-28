@@ -3,3 +3,6 @@ common_tags = {
   Owner       = "Dalvinder"
   Environment = "Prod"
 }
+
+vnet_name = "dalvinder-prod-vnet"
+address_space = ["198.172.0.0/16"]
