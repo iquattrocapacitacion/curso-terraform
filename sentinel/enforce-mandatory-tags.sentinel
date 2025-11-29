@@ -1,0 +1,31 @@
+import "tfplan/v2" as tfplan
+
+# Función auxiliar para verificar si existe la tag "owner"
+has_owner_tag = func(resource) {
+    tags := resource.applied.tags is null ? {} : resource.applied.tags
+    return "owner" in tags and tags["owner"] != ""
+}
+
+required_types = [
+    "azurerm_resource_group",
+    "azurerm_virtual_network",
+]
+
+violations = []
+
+for resource_type in required_types {
+    resources := tfplan.resources[resource_type]
+    if resources is not null {
+        for name, resource in resources {
+            if not has_owner_tag(resource) {
+                violations.append(
+                    "El recurso " + resource_type + "." + name + " no tiene la tag obligatoria 'owner'."
+                )
+            }
+        }
+    }
+}
+
+main = rule {
+    length(violations) is 0
+}

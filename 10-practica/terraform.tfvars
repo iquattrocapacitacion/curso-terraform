@@ -1,8 +1,8 @@
 common_tags = {
   Project     = "Terraform"
   Owner       = "Dalvinder"
-  Environment = "Dev"
+  Environment = "Development"
 }
 
-vnet_name = "dalvinder-dev-vnet"
+vnet_name     = "dalvinder-dev-vnet"
 address_space = ["10.0.0.0/16"]
