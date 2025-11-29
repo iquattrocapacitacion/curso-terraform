@@ -9,9 +9,9 @@
 # }
 
 policy "enforce-mandatory-tags" {
-    enforcement_level = "hard"
+    enforcement_level = "hard-mandatory"
 }
 
 policy "restrict-address_space" {
-    enforcement_level = "hard"
+    enforcement_level = "hard-mandatory"
 }
