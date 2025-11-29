@@ -1,31 +1,34 @@
 import "tfplan/v2" as tfplan
 
-# Función auxiliar para verificar si existe la tag "owner"
+violations = []
+
+# Función para validar la tag "owner"
 has_owner_tag = func(resource) {
     tags := resource.applied.tags is null ? {} : resource.applied.tags
     return "owner" in tags and tags["owner"] != ""
 }
 
-required_types = [
-    "azurerm_resource_group",
-    "azurerm_virtual_network",
-]
-
-violations = []
-
-for resource_type in required_types {
-    resources := tfplan.resources[resource_type]
-    if resources is not null {
-        for name, resource in resources {
-            if not has_owner_tag(resource) {
-                violations.append(
-                    "El recurso " + resource_type + "." + name + " no tiene la tag obligatoria 'owner'."
-                )
-            }
+# Recurso: Resource Groups
+rgs = tfplan.resources["azurerm_resource_group"]
+if rgs is not null {
+    for name, rg in rgs {
+        if not has_owner_tag(rg) {
+            violations.append("El Resource Group '" + name + "' no tiene la tag 'owner'.")
         }
     }
 }
 
+# Recurso: VNets
+vnets = tfplan.resources["azurerm_virtual_network"]
+if vnets is not null {
+    for name, vnet in vnets {
+        if not has_owner_tag(vnet) {
+            violations.append("La VNet '" + name + "' no tiene la tag 'owner'.")
+        }
+    }
+}
+
+# Regla principal
 main = rule {
     length(violations) is 0
 }

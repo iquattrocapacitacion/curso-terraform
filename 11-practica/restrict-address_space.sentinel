@@ -9,9 +9,7 @@ if vnets is not null {
         address_space := vnet.applied.address_space
 
         if address_space is null or length(address_space) == 0 {
-            violations.append(
-                "La VNet " + name + " debe tener definido el atributo address_space."
-            )
+            violations.append("La VNet '" + name + "' debe incluir un address_space válido.")
         }
     }
 }
