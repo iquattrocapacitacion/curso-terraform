@@ -10,8 +10,9 @@
 
 policy "enforce-mandatory-tags" {
     enforcement_level = "hard-mandatory"
+    # enforcement_level = "advisory-mandatory"
 }
 
 policy "restrict-address_space" {
-    enforcement_level = "hard-mandatory"
+    enforcement_level = "soft-mandatory"
 }

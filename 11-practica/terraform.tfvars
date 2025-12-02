@@ -1,5 +1,5 @@
 common_tags = {
-  # Project     = "Terraform"
+  Project     = "Terraform"
   Owner       = "Dalvinder"
   Environment = "Development"
 }
